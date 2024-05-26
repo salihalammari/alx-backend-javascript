@@ -1,26 +1,13 @@
-import fs from 'fs';
+import { AppController } from '../controllers/AppController';
+import { StudentsController } from '../controllers/StudentsController';
 
-// eslint-disable-next-line import/prefer-default-export
-export const readDatabase = (filePath) => new Promise((resolve, reject) => {
-  fs.readFile(filePath, 'utf8', (err, data) => {
-    if (err) {
-      reject(err);
-    } else {
-      const lines = data.trim().split('\n');
-      const fields = {};
-      lines.forEach((line, index) => {
-        if (index === 0) {
-          // Skip the header line
-          return;
-        }
-        // eslint-disable-next-line no-unused-vars
-        const [firstName, lastName, age, field] = line.split(',');
-        if (!fields[field]) {
-          fields[field] = [];
-        }
-        fields[field].push(`${firstName} ${lastName}`);
-      });
-      resolve(fields);
-    }
-  });
-});
+const express = require('express');
+const router = express.Router();
+
+// Route for the homepage
+router.get('/', AppController.getHomepage);
+
+// Route for getting all students or students by major
+router.get('/students/:major?', StudentsController.getAllStudents);
+
+export default router;
