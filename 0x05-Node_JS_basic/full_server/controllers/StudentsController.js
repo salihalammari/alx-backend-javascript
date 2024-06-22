@@ -36,6 +36,7 @@ class StudentsController {
           .send(err instanceof Error ? err.message : err.toString());
       });
   }
+
   static getAllStudentsByMajor(request, response) {
     const dataPath = process.argv.length > 2 ? process.argv[2] : '';
     const { major } = request.params;
